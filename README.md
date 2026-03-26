@@ -27,9 +27,11 @@ Architecture maps and step-by-step setup guides for major cloud providers and ag
 - [OpenClaw Integration](templates/integrations/openclaw.md)
 
 ### 3. Python Examples (`/examples`)
-Runnable Python scripts for each case with configurable placeholders for database endpoints, LLM API keys, and cloud service credentials.
-- Set environment variables like `OPENAI_API_KEY`, `NEO4J_URI`, `AZURE_OPENAI_KEY`, etc.
-- Run any example: `python examples/seo/main.py`
+Runnable Python applications for each case with production features:
+- **Neo4j/GraphDB Support**: Built-in placeholders for persistence.
+- **Structured Logging**: Production-ready logging system.
+- **Environment Management**: Automatic `.env` support via `shared.FastMemoryClient`.
+- **Requirements Specifics**: Individual `requirements.txt` for each example.
 
 ---
 
@@ -41,20 +43,31 @@ Runnable Python scripts for each case with configurable placeholders for databas
    cd memory-template
    ```
 
-2. **Install FastMemory**:
-   Follow instructions at [FastBuilderAI/memory](https://github.com/fastbuilderai/memory).
+2. **Choose an Example (e.g., Coffee Shop)**:
+   ```bash
+   cd examples/coffeeshop
+   pip install -r requirements.txt
+   ```
 
 3. **Configure Your Environment**:
-   Copy `.env.example` (if provided) or export your credentials:
+   Copy `.env.example` and fill in your credentials:
    ```bash
-   export NEO4J_URI="bolt://your-neo4j-instance:7687"
-   export OPENAI_API_KEY="sk-..."
+   cp .env.example .env
    ```
 
-4. **Run an Example**:
+4. **Run the App**:
    ```bash
-   python examples/healthcare/main.py
+   python main.py
    ```
+
+---
+
+## 🏗️ Architecture: Shared Client
+
+All examples now inherit from a standardized production template via `examples/shared/fastmemory_client.py`. This ensures consistent behavior for:
+- **Connectivity**: Graceful handling of Neo4j/LLM drivers.
+- **Observability**: Health checks and structured logging.
+- **Scalability**: Decoupled domain logic from infrastructure.
 
 ## 🤝 Contributing
 We welcome contributions! Please map your industry use cases to the CBFDAE framework and submit a PR.

@@ -1,0 +1,4 @@
+boto3
+neo4j
+python-dotenv
+pydantic

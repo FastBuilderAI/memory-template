@@ -1,41 +1,67 @@
 import os
+import sys
 import json
+from typing import List, Dict, Any
 
-# --- Configuration ---
-# POS Systems (Square, Toast, Clover)
-SQUARE_ACCESS_TOKEN = os.getenv("SQUARE_ACCESS_TOKEN", "sq-test-token")
-LOYALTY_SERVICE_URL = os.getenv("LOYALTY_SERVICE_URL", "https://loyalty.coffeeshop.com")
+# Add parent directory to sys.path to import shared client
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from shared.fastmemory_client import FastMemoryClient
 
-def build_coffeeshop_graph():
-    """
-    Builds FastMemory graph for Coffee Shop operations.
-    """
-    print("Building Coffee Shop FastMemory Graph...")
-    atfs = [
-        {"id": "C_Counter_Service", "type": "Component"},
-        {"id": "B_Barista_Queue", "type": "Block", "links": ["C_Counter_Service"]},
-        {"id": "F_Inventory_Deduct", "type": "Function", "links": ["B_Barista_Queue"]},
-        {"id": "D_Stock_Levels", "type": "Data", "links": ["F_Inventory_Deduct"]},
-        {"id": "A_Role_Barista", "type": "Access", "links": ["F_Inventory_Deduct"]},
-        {"id": "E_Order_Pickup_Ready", "type": "Event", "links": ["F_Inventory_Deduct"]}
-    ]
-    return atfs
+class CoffeeShopApp:
+    def __init__(self):
+        self.client = FastMemoryClient("CoffeeShop")
+        
+        # Coffee Shop Specific Config
+        self.square_token = os.getenv("SQUARE_ACCESS_TOKEN", "sq-test-token")
+        self.loyalty_url = os.getenv("LOYALTY_SERVICE_URL", "https://loyalty.coffeeshop.com")
 
-def process_loyalty_logic(customer_id):
-    """
-    Checks if a customer is eligible for rewards based on graph rules.
-    """
-    print(f"Processing loyalty for customer: {customer_id}")
-    return {
-        "customer": customer_id,
-        "tier": "Gold",
-        "redemption_function": "F_Reedem_Free_Coffee",
-        "data": "Customer_Tier_Map"
-    }
+    def build_graph(self) -> List[Dict[str, Any]]:
+        """
+        Builds the Counter Service graph using CBFDAE ontology.
+        """
+        self.client.logger.info("Defining Coffee Shop nodes...")
+        atfs = [
+            {"id": "C_Counter_Service", "type": "Component", "description": "Primary point of sale interaction"},
+            {"id": "B_Barista_Queue", "type": "Block", "links": ["C_Counter_Service"], "description": "LIFO/FIFO queue for drinks"},
+            {"id": "F_Inventory_Deduct", "type": "Function", "links": ["B_Barista_Queue"], "description": "Real-time stock adjustment"},
+            {"id": "D_Stock_Levels", "type": "Data", "links": ["F_Inventory_Deduct"], "description": "Product availability registry"},
+            {"id": "A_Role_Barista", "type": "Access", "links": ["F_Inventory_Deduct"], "description": "Permission to modify stock"},
+            {"id": "E_Order_Pickup_Ready", "type": "Event", "links": ["F_Inventory_Deduct"], "description": "Trigger for customer notification"}
+        ]
+        return atfs
+
+    def process_loyalty(self, customer_id: str):
+        """
+        Simulates loyalty logic verification.
+        """
+        self.client.logger.info(f"Checking loyalty status for {customer_id} via {self.loyalty_url}")
+        # In production, this would query the loyalty microservice
+        return {
+            "customer": customer_id,
+            "tier": "Gold",
+            "eligible_for_reward": True,
+            "last_interaction": "2024-03-25"
+        }
+
+    def run(self):
+        """
+        Main execution flow.
+        """
+        self.client.health_check()
+        
+        # 1. Build and Deploy Graph
+        graph = self.build_graph()
+        self.client.deploy_graph(graph)
+        
+        # 2. Simulate Business Logic
+        customer_ctx = self.process_loyalty("CUST-102")
+        print(f"\n[LOYALTY CONTEXT]: {json.dumps(customer_ctx, indent=2)}")
+        
+        self.client.logger.info("Coffee Shop App execution completed.")
 
 if __name__ == "__main__":
-    coffee_graph = build_coffeeshop_graph()
-    print(f"Coffee Shop Graph: {len(coffee_graph)} nodes.")
-    
-    result = process_loyalty_logic("CUST-992")
-    print(f"Loyalty Result: {json.dumps(result, indent=2)}")
+    app = CoffeeShopApp()
+    try:
+        app.run()
+    finally:
+        app.client.close()

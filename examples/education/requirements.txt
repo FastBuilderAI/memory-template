@@ -1,0 +1,4 @@
+neo4j
+python-dotenv
+pydantic
+psycopg2-binary

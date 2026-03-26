@@ -1,0 +1,5 @@
+google-cloud-storage
+google-cloud-aiplatform
+neo4j
+python-dotenv
+pydantic

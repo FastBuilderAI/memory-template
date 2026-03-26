@@ -1,0 +1,5 @@
+neo4j
+python-dotenv
+pydantic
+azure-identity
+azure-storage-blob
