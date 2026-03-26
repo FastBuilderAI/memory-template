@@ -70,6 +70,22 @@ class FastMemoryClient:
         self.logger.info(f"Health Check: {json.dumps(status)}")
         return status
 
+    def execute_query(self, query: str, parameters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """
+        Executes a Cypher query on Neo4j.
+        """
+        if not self.driver:
+            self.logger.warning("Neo4j driver not connected. Returning empty results.")
+            return []
+            
+        try:
+            with self.driver.session() as session:
+                result = session.run(query, parameters or {})
+                return [record.data() for record in result]
+        except Exception as e:
+            self.logger.error(f"Query execution failed: {e}")
+            return []
+
     def deploy_graph(self, atfs: List[Dict[str, Any]]):
         """
         Placeholder for deploying an ATF graph to FastMemory/Neo4j.

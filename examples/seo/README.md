@@ -20,6 +20,37 @@ This is a full-fledged example of using FastMemory to manage SEO Strategy and Cl
    python main.py
    ```
 
+### 🔍 Search & Query (AI Agent)
+
+We've provided a `llquery.py` script that uses **LangGraph** and **OpenAI** to intelligently query the FastMemory graph.
+
+1. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Run a Query**:
+   ```bash
+   python fastllmquery.py "How do we handle keyword clustering?"
+   ```
+
+The agent will:
+- Retrieve the relevant **CBFDAE** context from Neo4j.
+- Use GPT-4o to explain the relationships between keyword harvesting, ranking updates, and strategy optimization.
+
+### 🆚 Standard RAG (Comparison)
+
+We've also provided a `simplellmquery.py` script to demonstrate the difference between **Topological Recall** (FastMemory) and **Standard RAG**.
+
+1. **Run Standard RAG**:
+   ```bash
+   python simplellmquery.py "How do we handle keyword clustering?"
+   ```
+
+Observe how the standard RAG response lacks the deep architectural context (Components, Blocks, Access Rules) provided by the FastMemory graph in `fastllmquery.py`.
+
+---
+
 ## 📂 Features
 
 - **CBFDAE Ontology**: Maps client success modules, SEO strategies, and keyword harvesting functions.

@@ -1,4 +1,8 @@
 neo4j
 python-dotenv
 pydantic
+langgraph
+langchain-openai
+langchain
+langchain-community
 requests
