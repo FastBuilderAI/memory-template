@@ -8,6 +8,8 @@ Welcome to the official deployment templates for **FastMemory**, the horizontal 
 - **Superfast (Agent Framework)**: [https://github.com/FastBuilderAI/superfast](https://github.com/FastBuilderAI/superfast)
 
 ## 🏗️ What is FastMemory?
+> **Engine Compatibility**: Fully compatible with `FastMemory v0.2.1+` (Enterprise Telemetry Edition).
+
 FastMemory is an AI memory system that uses the **CBFDAE** (Component, Block, Function, Data, Access, Event) ontology to build a structured, low-hallucination cognitive graph for AI agents.
 
 ---
