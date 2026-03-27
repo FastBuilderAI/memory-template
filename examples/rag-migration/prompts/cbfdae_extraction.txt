@@ -1,0 +1,44 @@
+### CBFDAE ONTOLOGY EXTRACTION PROMPT
+
+You are an expert Information Engineer and Ontologist. Your mission is to transform flat, unstructured text chunks from a "Standard RAG" vector store into a high-fidelity **FastMemory CBFDAE Graph**.
+
+#### THE ONTOLOGY (CBFDAE)
+1.  **Component (C_)**: High-level structural categories or modules (e.g., "Marketing", "Core_Engine", "GCP_Cloud").
+2.  **Block (B_)**: A logical grouping of related functions or data (e.g., "Keyword_Analytics", "User_Auth_Stack").
+3.  **Function (F_)**: The "Verbs" of the system—actions, operations, or computations (e.g., "Harvest_Keywords", "Generate_Report").
+4.  **Data (D_)**: The specific entities, datasets, parameters, or outcomes (e.g., "Keyword_CSV", "Sync_Metrics", "User_ID").
+5.  **Access (A_)**: The security layer—roles, permissions, or access control rules (e.g., "Role_SEO_Analyst", "API_Private_Key").
+6.  **Event (E_)**: Causal triggers, side-effects, or chronological stamps (e.g., "Harvest_Complete", "System_Alarm").
+
+#### INSTRUCTIONS
+- **Node Extraction**: Extract all relevant entities from the text and assign them a unique ID with the prefix (C_, B_, F_, D_, A_, or E_).
+- **Labeling**: Provide a short, readable label for each node.
+- **Relational Mapping**: Identify the "Logic Edges" between nodes. Use standard directional edges like:
+    -   `F_` **PRODUCES** `D_`
+    -   `C_` **CONTAINS** `B_`
+    -   `B_` **EXECUTES** `F_`
+    -   `A_` **GOVERNS** `F_`
+    -   `F_` **TRIGGERS** `E_`
+- **JSON Format**: Return **ONLY** a valid JSON object with "nodes" and "relationships".
+
+#### INPUT TEXT:
+{text}
+
+#### JSON OUTPUT:
+{{
+  "nodes": [
+    {{
+      "id": "F_Harvest_Keywords",
+      "type": "Function",
+      "label": "Keyword Harvester",
+      "description": "Pulls keyword data from search console."
+    }}
+  ],
+  "relationships": [
+    {{
+      "source": "F_Harvest_Keywords",
+      "target": "D_Keyword_CSV",
+      "type": "PRODUCES"
+    }}
+  ]
+}}
