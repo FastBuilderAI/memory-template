@@ -5,6 +5,7 @@ Welcome to the official deployment templates for **FastMemory**, the horizontal 
 ## 🔗 Key Resources
 - **FastBuilder.AI**: [https://fastbuilder.ai](https://fastbuilder.ai)
 - **Core FastMemory Repo**: [https://github.com/fastbuilderai/memory](https://github.com/fastbuilderai/memory)
+- **Superfast (Agent Framework)**: [https://github.com/FastBuilderAI/superfast](https://github.com/FastBuilderAI/superfast)
 
 ## 🏗️ What is FastMemory?
 FastMemory is an AI memory system that uses the **CBFDAE** (Component, Block, Function, Data, Access, Event) ontology to build a structured, low-hallucination cognitive graph for AI agents.
@@ -25,6 +26,7 @@ Architecture maps and step-by-step setup guides for major cloud providers and ag
 - [AWS Bedrock](templates/cloud/aws.md)
 - [GCP Vertex AI](templates/cloud/gcp.md)
 - [OpenClaw Integration](templates/integrations/openclaw.md)
+- [Superfast Integration](https://github.com/FastBuilderAI/superfast/tree/main/skills/fastmemory)
 
 ### 3. Python Examples (`/examples`)
 Runnable Python applications for each case with production features:
